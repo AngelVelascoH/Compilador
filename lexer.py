@@ -1,4 +1,5 @@
 import enum
+import sys
 
 
 class Lexer:
@@ -21,27 +22,73 @@ class Lexer:
         return self.source[self.curPos+1]
 
     def abort(self,message):
-        pass
+        sys.exit("Lexing error. " + message)
     def skipWhitespace(self):
-        pass
+        while self.curChar == ' ' or self.curChar == '\t' or self.curChar == '\r':
+            self.nextChar()
     def skipComment(self):
-        pass
+        if self.curChar == '#':
+            while self.curChar != '\n':
+                self.nextChar()
     def getToken(self):
-        if self.curChar == '+':
-            pass
-        if self.curChar == '-':
-            pass
-        if self.curChar == '*':
-            pass
-        if self.curChar == '/':
-            pass
-        if self.curChar == '\n':
-            pass
-        if self.curChar == '\0':
-            pass
+        self.skipWhitespace()
+        self.skipComment()
+        token = None
+        if self.curChar == "+":
+            token = Token(self.curChar, TokenType.PLUS)
+        elif self.curChar == '-':
+            token = Token(self.curChar, TokenType.MINUS)
+        elif self.curChar == '*':
+            token = Token(self.curChar, TokenType.ASTERISK)
+        elif self.curChar == '/':
+            token = Token(self.curChar, TokenType.SLASH)
+        elif self.curChar == '>':
+            if self.peek() == '=':
+                lastChar = self.curChar
+                self.nextChar()
+                token = Token(lastChar + self.curChar, TokenType.GTEQ)
+            else:
+                token = Token(self.curChar, TokenType.GT)
+        elif self.curChar == '<':
+            if self.peek() == '=':
+                lastChar = self.curChar
+                self.nextChar()
+                token = Token(lastChar + self.curChar, TokenType.LTEQ)
+            else:
+                token = Token(self.curChar, TokenType.LT)
+        elif self.curChar == '=':
+            if self.peek() == '=':
+                lastChar = self.curChar
+                self.nextChar()
+                token = Token(lastChar + self.curChar, TokenType.EQEQ)
+            else:
+                token = Token(self.curChar, TokenType.EQ)
+        elif self.curChar == '!':
+            if self.peek() == '=':
+                lastChar = self.curChar
+                self.nextChar()
+                token = Token(lastChar + self.curChar, TokenType.NOTEQ)
+            else:
+                self.abort("Se esperaba un !=, se obtuvo !" + self.peek())
+        elif self.curChar == '\"':
+            self.nextChar()
+            startPos = self.curPos
+
+            while self.curChar != '\"':
+                if self.curChar == '\r' or self.curChar == '\n':
+                    self.abort("String no valida, caracter ilegal")
+                self.nextChar()
+            tokText = self.source[startPos : self.curPos]
+            token =Token(tokText,TokenType.STRING)
+
+        elif self.curChar == '\n':
+            token = Token(self.curChar, TokenType.NEWLINE)
+        elif self.curChar == '\0':
+            token = Token('', TokenType.EOF)
         else:
-            pass
+            self.abort("Unknown token: " + self.curChar)
         self.nextChar()
+        return token
 
 
 class Token:

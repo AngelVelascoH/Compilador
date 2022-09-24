@@ -2,12 +2,13 @@ from lexer import *
 
 
 def main():
-    inp = "var = 123"
+    inp = "+- */>>= =\"Hello World\" != =="
     lexer = Lexer(inp)
 
-    while lexer.peek() != '\0':
-        print(lexer.curChar)
-        lexer.nextChar()
+    token = lexer.getToken()
+    while token.kind != TokenType.EOF:
+        print(token.kind)
+        token = lexer.getToken()
 
 
 main()
