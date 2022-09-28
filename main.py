@@ -2,7 +2,10 @@ from lexer import *
 
 
 def main():
-    inp = "+- */>>= =\"Hello World\" != =="
+    inp = """
+    def impresion(mensaje,informacion):
+    print("el resultado de esta suma es :" + 23.4)
+    """
     lexer = Lexer(inp)
 
     token = lexer.getToken()
