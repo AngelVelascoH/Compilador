@@ -2,12 +2,9 @@ from lexer import *
 
 
 def main():
-    inp = """
-    def impresion(mensaje,informacion):
-    print("el resultado de esta suma es :" + 23.4)
-    """
+    f = open('proyectoFInal.txt')
+    inp = f.read()
     lexer = Lexer(inp)
-
     token = lexer.getToken()
     while token.kind != TokenType.EOF:
         print(token.kind)

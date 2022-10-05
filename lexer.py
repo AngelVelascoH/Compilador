@@ -99,6 +99,8 @@ class Lexer:
             token = Token(self.curChar, TokenType.BRACKET_CL)
         elif self.curChar == ',':
             token = Token(self.curChar, TokenType.COMMA)
+        elif self.curChar == '.':
+            token = Token(self.curChar, TokenType.DOT)
 
         elif self.curChar.isdigit():
             startPos = self.curPos
@@ -176,3 +178,4 @@ class TokenType(enum.Enum):
     BRACKET_OP = 215
     BRACKET_CL = 216
     COMMA = 217
+    DOT = 218 
