@@ -1,14 +1,22 @@
 from lexer import *
+from parse import *
 
 
 def main():
-    f = open('proyectoFInal.txt')
+    print("Compilador PYTHON ----> C++")
+
+    f = open('test.txt')
     inp = f.read()
     lexer = Lexer(inp)
-    token = lexer.getToken()
-    while token.kind != TokenType.EOF:
-        print(token.kind)
-        token = lexer.getToken()
+    
+    print("FIN DEL ANALIZADOR LÉXICO")
+    print("<-------------------------->")
+
+    parser = Parser(lexer)
+
+    parser.file()
+    print("FIN DEL PARSING")
+    print("<-------------------------->")
 
 
 main()

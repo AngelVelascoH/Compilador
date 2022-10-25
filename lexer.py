@@ -1,15 +1,16 @@
 from ast import keyword
-from curses.ascii import isalnum, isdigit
 import enum
 import sys
-
-
+from queue import LifoQueue
+stack = LifoQueue()
+stack.put(0)
 class Lexer:
     def __init__(self, inp):
         self.source = inp + '\n'
         self.curChar = ''
         self.curPos = - 1
         self.nextChar()
+        self.line_counter = 0
 
     def nextChar(self):
         self.curPos += 1
@@ -26,12 +27,50 @@ class Lexer:
     def abort(self,message):
         sys.exit("Lexing error. " + message)
     def skipWhitespace(self):
-        while self.curChar == ' ' or self.curChar == '\t' or self.curChar == '\r':
+        while self.curChar == ' ' or self.curChar == '\t':
             self.nextChar()
     def skipComment(self):
         if self.curChar == '#':
             while self.curChar != '\n':
                 self.nextChar()
+    def indentationchecker(self,count):
+        original_value = stack.get()
+        if count > original_value:
+            stack.put(original_value)
+            stack.put(count)
+            return 1
+        elif count < original_value:
+            indent_anterior = stack.get()
+            if count != indent_anterior:
+                raise Exception("Problema de indentación, verificar que las indentaciones correspondan")
+            else:
+                stack.put(count)
+                return 2
+        elif count == original_value:
+            stack.put(original_value)
+            return 3
+        else: return 4
+    def dedentationchecker(self,count):
+        original_value = stack.get()
+        if count < original_value:
+            indent_anterior = stack.get()
+            if count != indent_anterior:
+                raise Exception("Problema de indentación, verificar que las indentaciones correspondan")
+            else:
+                stack.put(indent_anterior)
+                stack.put(count) 
+                return 1
+        else:
+            stack.put(count)
+            return 2
+    def indentation_validator(self,count):
+        original_value = stack.get()
+        if count != original_value:
+                raise Exception("Problema de indentación, verificar que las indentaciones correspondan")
+        else:
+            return
+
+
     def getToken(self):
         self.skipWhitespace()
         self.skipComment()
@@ -88,7 +127,31 @@ class Lexer:
             token = Token(self.curChar,TokenType.PAREN_CL)
 
         elif self.curChar == '\n':
-            token = Token(self.curChar, TokenType.NEWLINE)
+            self.line_counter += 1
+            if self.peek() == ' ':
+                counted_spaces = 0
+                self.nextChar()
+                startPos = self.curPos
+
+                while self.peek() == ' ':
+                    counted_spaces += 1
+                    self.nextChar()
+                tokText = self.source[startPos: self.curPos]
+                indentation_token = self.indentationchecker(counted_spaces)
+                if(indentation_token == 1):
+                    token = Token(tokText,TokenType.INDENTATION)
+                elif(indentation_token == 2):
+                    token = Token(tokText,TokenType.DEDENTATION)
+                    
+                else:
+                    token = Token(tokText, TokenType.NEWLINE)
+            else:
+                counted_spaces = 0
+                dedentation_token = self.dedentationchecker(counted_spaces)
+                if dedentation_token == 1:
+                    token = Token(self.curChar,TokenType.DEDENTATION)
+                else:
+                    token = Token(self.curChar, TokenType.NEWLINE)
         elif self.curChar == '\0':
             token = Token('', TokenType.EOF)
         elif self.curChar == ':':
@@ -123,6 +186,7 @@ class Lexer:
             keyword = Token.checkIfkeyword(tokText)
             if keyword == None:
                 token = Token(tokText, TokenType.IDENT)
+                
             else: 
                 token = Token(tokText, keyword)
         else:
@@ -138,7 +202,7 @@ class Token:
     @staticmethod
     def checkIfkeyword(tokenText):
         for kind in TokenType:
-            if kind.name.lower() == tokenText and kind.value >= 100 and kind.value <200:
+            if kind.name.lower() == tokenText.lower() and kind.value >= 100 and kind.value < 200:
                 return kind
         return None
 
@@ -148,6 +212,8 @@ class TokenType(enum.Enum):
     NUMBER = 1
     IDENT = 2
     STRING = 3
+    INDENTATION = 4
+    DEDENTATION = 5
     # Palabras reservadas
     PRINT = 101
     DEF = 102
