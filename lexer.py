@@ -226,6 +226,7 @@ class TokenType(enum.Enum):
     INPUT = 109
     INT = 110
     APPEND = 111
+    IF = 112
     #simbolos
     EQ = 201
     PLUS = 202

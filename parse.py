@@ -34,6 +34,11 @@ class Parser:
     #reglas de la gramatica de Python
     def file(self):
         print("PROGRAMA")
+        if self.checkToken(TokenType.INDENTATION):
+            self.abort("Indentacion no esperada")
+        #saltar los saltos de linea no necesarios.
+        while self.checkToken(TokenType.NEWLINE):
+            self.nextToken()
         #analizar todas las sentencias en el programa.
         while not self.checkToken(TokenType.EOF):
             self.statement()
@@ -49,10 +54,29 @@ class Parser:
 
                 if self.checkToken(TokenType.STRING):
                     self.nextToken()
-                    
+                    if self.checkToken(TokenType.PAREN_CL):
+                        self.nextToken()
+                else:
+                    self.expression()
                     if self.checkToken(TokenType.PAREN_CL):
                         self.nextToken()
                     
+                
+        elif self.checkToken(TokenType.IF):
+            print("SENTENCIA IF")
+            self.nextToken()
+            self.comparison()
+
+            self.match(TokenType.COL)
+            self.match(TokenType.INDENTATION)
+            self.nl()
+
+
+            while not self.checkToken(TokenType.DEDENTATION):
+                self.statement()
+            self.match(TokenType.DEDENTATION)
+        else:
+            self.abort(f"Invalid statement at {self.curToken.text} ({self.curToken.kind.name})")
         self.nl()     
 
     def nl(self):

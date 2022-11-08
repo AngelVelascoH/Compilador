@@ -6,7 +6,7 @@ def main():
     print("Compilador PYTHON ----> C++")
 
     f = open('test.txt')
-    inp = f.read()
+    inp = '\n' + f.read()
     lexer = Lexer(inp)
     
     print("FIN DEL ANALIZADOR LÉXICO")
