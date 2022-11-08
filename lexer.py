@@ -27,7 +27,7 @@ class Lexer:
     def abort(self,message):
         sys.exit("Lexing error. " + message)
     def skipWhitespace(self):
-        while self.curChar == ' ' or self.curChar == '\t':
+        while self.curChar == ' ':
             self.nextChar()
     def skipComment(self):
         if self.curChar == '#':
@@ -72,6 +72,7 @@ class Lexer:
 
 
     def getToken(self):
+        
         self.skipWhitespace()
         self.skipComment()
         token = None
@@ -127,14 +128,41 @@ class Lexer:
             token = Token(self.curChar,TokenType.PAREN_CL)
 
         elif self.curChar == '\n':
+            print("im here first")
             self.line_counter += 1
             if self.peek() == ' ':
+                print("now here")
                 counted_spaces = 0
                 self.nextChar()
                 startPos = self.curPos
 
-                while self.peek() == ' ':
-                    counted_spaces += 1
+                while self.peek() == ' ' or self.peek() == '\t':
+                    print("finally here")
+                    if self.peek() == ' ':
+                        counted_spaces += 1
+                    else:
+                        counted_spaces += 4
+                    self.nextChar()
+                
+                tokText = self.source[startPos: self.curPos]
+                indentation_token = self.indentationchecker(counted_spaces)
+                if(indentation_token == 1):
+                    token = Token(tokText,TokenType.INDENTATION)
+                elif(indentation_token == 2):
+                    token = Token(tokText,TokenType.DEDENTATION)
+                    
+                else:
+                    token = Token(tokText, TokenType.NEWLINE)
+            elif self.peek() == '\t':
+                counted_spaces = 0
+                self.nextChar()
+                startPos = self.curPos
+
+                while self.peek() == ' ' or self.peek() == '\t':
+                    if self.peek() == ' ':
+                        counted_spaces += 1
+                    else:
+                        counted_spaces += 4
                     self.nextChar()
                 tokText = self.source[startPos: self.curPos]
                 indentation_token = self.indentationchecker(counted_spaces)
