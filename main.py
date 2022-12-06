@@ -6,7 +6,7 @@ import io
 
 def main():
     print("Compilador PYTHON ----> C++")
-
+    print("\n")
     f = io.open('test.txt',mode='r',encoding="utf-8")
     inp = '\n' + f.read()
     lexer = Lexer(inp)
@@ -16,9 +16,8 @@ def main():
         token = lexer.getToken()
     print("FIN DEL ANALIZADOR LÉXICO")
     print("<-------------------------->")
-
+    lexer = Lexer(inp)
     parser = Parser(lexer)
-
     parser.file()
     print("FIN DEL PARSING")
     print("<-------------------------->")

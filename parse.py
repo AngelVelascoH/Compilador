@@ -56,25 +56,22 @@ class Parser:
                     self.nextToken()
                     if self.checkToken(TokenType.PAREN_CL):
                         self.nextToken()
+                        
                 else:
                     self.expression()
                     if self.checkToken(TokenType.PAREN_CL):
                         self.nextToken()
                     
-                
-        elif self.checkToken(TokenType.IF):
-            print("SENTENCIA IF")
-            self.nextToken()
-            self.comparison()
+       
 
-            self.match(TokenType.COL)
-            self.match(TokenType.INDENTATION)
-            self.nl()
+        elif self.checkToken(TokenType.IDENT):
+            print("ASIGNACION")
+            self. nextToken()
+            self.match(TokenType.EQ)
+            self.expression()
 
 
-            while not self.checkToken(TokenType.DEDENTATION):
-                self.statement()
-            self.match(TokenType.DEDENTATION)
+            
         else:
             self.abort(f"Invalid statement at {self.curToken.text} ({self.curToken.kind.name})")
         self.nl()     
@@ -88,4 +85,40 @@ class Parser:
             while self.checkToken(TokenType.NEWLINE):
                 self.nextToken()
                 
+    def expression(self):
+        print("EXPRESSION")
+
+        self.term()
+        # Can have 0 or more +/- and expressions.
+        while self.checkToken(TokenType.PLUS) or self.checkToken(TokenType.MINUS):
+            self.nextToken()
+            self.term()
                 
+    def term(self):
+        print("TERM")
+
+        self.unary()
+        # Can have 0 or more *// and expressions.
+        while self.checkToken(TokenType.ASTERISK) or self.checkToken(TokenType.SLASH):
+            self.nextToken()
+            self.unary()
+
+
+    # unary ::= ["+" | "-"] primary
+    def unary(self):
+        print("UNARY")
+
+        # Optional unary +/-
+        if self.checkToken(TokenType.PLUS) or self.checkToken(TokenType.MINUS):
+            self.nextToken()        
+        self.primary()
+    def primary(self):
+        print("PRIMARY (" + self.curToken.text + ")")
+
+        if self.checkToken(TokenType.NUMBER): 
+            self.nextToken()
+        elif self.checkToken(TokenType.IDENT):
+            self.nextToken()
+        else:
+            # Error!
+            self.abort("Unexpected token at " + self.curToken.text)

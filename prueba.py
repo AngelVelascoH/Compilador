@@ -1,2 +1,1 @@
-print(5+10)
-print("hola")
+print(5 == (25-20))

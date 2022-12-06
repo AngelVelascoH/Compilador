@@ -1,2 +1,3 @@
-	lmao:
-		print("si")
+print("si")
+print(2)
+x = variable1

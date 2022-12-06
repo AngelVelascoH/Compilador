@@ -128,16 +128,17 @@ class Lexer:
             token = Token(self.curChar,TokenType.PAREN_CL)
 
         elif self.curChar == '\n':
-            print("im here first")
             self.line_counter += 1
-            if self.peek() == ' ':
-                print("now here")
+            if self.peek() == ' ': 
                 counted_spaces = 0
+                self.nextChar()
+                startPos = self.curPos
+            elif self.peek() == '\t':
+                counted_spaces  = 4
                 self.nextChar()
                 startPos = self.curPos
 
                 while self.peek() == ' ' or self.peek() == '\t':
-                    print("finally here")
                     if self.peek() == ' ':
                         counted_spaces += 1
                     else:
