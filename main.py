@@ -7,7 +7,7 @@ import io
 def main():
     print("Compilador PYTHON ----> C++")
     print("\n")
-    f = io.open('test.txt',mode='r',encoding="utf-8")
+    f = io.open('proyectoFinal.txt',mode='r',encoding="utf-8")
     inp = '\n' + f.read()
     lexer = Lexer(inp)
     token = lexer.getToken()

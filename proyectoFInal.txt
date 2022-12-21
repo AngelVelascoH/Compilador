@@ -24,4 +24,4 @@ Datos=llenarLista(int(Datos))
 Suma=sumatoria(Datos)
 impresion("La sumatoria de los numeros es: ",Suma)
 Producto=calcularProducto(Datos)
-impresion("El producto de los numers es: ",Producto):
+impresion("El producto de los numers es: ",Producto)
