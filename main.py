@@ -5,7 +5,7 @@ import io
 
 
 def main():
-    print("Compilador PYTHON ----> C++")
+    print("Compilador PYTHON ------> C++")
     print("\n")
     f = io.open('proyectoFinal.txt',mode='r',encoding="utf-8")
     inp = '\n' + f.read()
