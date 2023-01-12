@@ -17,10 +17,13 @@ def main():
     print("FIN DEL ANALIZADOR LÉXICO")
     print("<-------------------------->")
     lexer = Lexer(inp)
-    parser = Parser(lexer)
+    emmiter = Emmiter('out.cpp')
+    parser = Parser(lexer,emmiter)
     parser.file()
+    emmiter.writeFile()
     print("FIN DEL PARSING")
     print("<-------------------------->")
+    print("COMPILACIÓN COMPLETA")
 
 
 main()
