@@ -123,7 +123,7 @@ necesario para c++
 
 Evidentemente, el muy pequeño compilador realizado en esta práctica, no podrá compilar cualquier código en python, pero fue de gran utilidad para poder comprender el funcionamiento interno de un compilador.
 
-
+Se utilizó en gran parte como referencia la guía creada por Austin Z. Henley, https://austinhenley.com/blog/teenytinycompiler1.html
 
 
 
