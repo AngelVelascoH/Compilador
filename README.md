@@ -1,5 +1,5 @@
 
-Compilador de Python a C++
+#**Compilador de Python a C++**
 
 
 Este proyecto, corresponde a la culminación de la materia de compiladores.
@@ -12,13 +12,13 @@ Crear un compilador, es una tarea muy extensa además de compleja, especialmente
 
 El proyecto está conformado por 4 programas que permiten la compilación
 
-Resultados
+##Resultados
 
 El proyecto está conformado por 4 programas que permiten la compilación:
 ![image](https://github.com/AngelVelascoH/Compilador/assets/86260733/581a168d-5b96-47cb-937c-967b40bb47ca)
 
 
-
+##**Lexer**
 
 El programa de lexer, crea una clase Lexer, cuyo objetivo es retornan los tokens que
 
@@ -55,7 +55,7 @@ agruparlos en caso de que sea necesario, así identificando los tokens y creando
 objeto token que retrornaremos para el parser
 
 
-Parser
+##**Parser**
 
 El parser, utiliza los tokens recibidos, y va haciendo match (emparejando) los
 
@@ -77,7 +77,7 @@ correctamente a c++
 
 
 
-Emmiter:
+#**Emmiter**:
 
 El emisor, solo son funciones que nos permitiran agregar ese codigo a nuestro
 
@@ -100,31 +100,33 @@ pero debería aplicar a todas.
 
 
 
-Ejecución
+##**Ejecución**
+
+
 ![image](https://github.com/AngelVelascoH/Compilador/assets/86260733/7ae9c9aa-c87d-4148-9a33-4f221cc13243)
 
 
-**Identifica los tokens del programa**
+###**Identifica los tokens del programa**
 
 ![image](https://github.com/AngelVelascoH/Compilador/assets/86260733/7b27fc69-9125-4b4d-8486-c10a32e21e53)
 
 
 
-**Analiza los tokens y los parsea (analizadores sintacticos y semanticos) y crea código intermedio**
+###**Analiza los tokens y los parsea (analizadores sintacticos y semanticos) y crea código intermedio**
 
 
 ![image](https://github.com/AngelVelascoH/Compilador/assets/86260733/8f207703-e427-423d-a8cb-99fc8b331559)
 
 
 
-**Crea el código en c++**
+###**Crea el código en c++**
 
 ![image](https://github.com/AngelVelascoH/Compilador/assets/86260733/b9ecbd92-7a02-44b6-986e-2c928cba247c)
 
 
 
 
-Conclusión
+##**Conclusión**
 
 
 Evidentemente, el muy pequeño compilador realizado en esta práctica, no podrá compilar cualquier código en python, pero fue de gran utilidad para poder comprender el funcionamiento interno de un compilador.
