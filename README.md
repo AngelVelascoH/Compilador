@@ -63,15 +63,9 @@ tokens con las reglas de la gramática de python, las cuales pueden ser obtenida
 
 la siguiente página:
 
-https://inst.eecs.berkeley.edu/~cs164/sp18/python-gram
+https://inst.eecs.berkeley.edu/~cs164/sp18/python-grammar.html
 
-mar.html
 
-A continuación se muestran algunas de las implementaciones de las reglas de
-
-python, para así, obtener código intermedio que nos permitira traducir
-
-correctamente a c++
 
 
 
@@ -92,9 +86,7 @@ dos analizadores restantes, sintactico y semantico, así, podremos crear el cód
 
 necesario para c++
 
-El resultado de unirlos sería algo como esto, solo se muestra el de una función,
 
-pero debería aplicar a todas.
 
 
 
